@@ -1,0 +1,67 @@
+/*
+/* Created by Filipe Pina
+ * Specific styles of signin, register, component
+ */
+/*
+ * General styles
+ */
+
+body, html{
+     background-repeat: no-repeat;
+     background-color: #AA3939;
+     font-family: Tahoma, Geneva, sans-serif;
+     margin : 15px  15px 15px 15px;
+}
+
+.main{
+ 	margin-top: 70px;
+}
+
+
+h1 { color: #FFAAAA;
+  font-family: Tahoma, Geneva, sans-serif;
+  font-size: 54px;
+  font-weight: 100;
+  line-height: 58px;
+  margin: 0 0 0;
+  text-align: center;
+}
+
+h2 { color: #FFAAAA;
+  font-family: Tahoma, Geneva, sans-serif;
+  font-size: 54px;
+  font-weight: 100;
+  line-height: 58px;
+  margin: 0 0 58px;
+}
+
+h3 { color: #FFAAAA;
+  font-family: Tahoma, Geneva, sans-serif;
+  font-size: 32px;
+  font-weight: 100;
+  line-height: 58px;
+  margin: 0 0 58px;
+}
+
+.listing{
+  background-color: #801515;
+  margin : 5px 5px 5px 5px;
+  padding : 30px;
+}
+
+
+li{
+  color: #FFAAAA;
+  font-size: 20px;
+  font-weight: 50;
+  line-height: 12px;
+  padding-top: 15px;
+}
+
+code{
+  padding: 20px 20px 20px 20px;
+  margin-bottom: 12px;
+  background-color: 550000;
+  color : FFAAAA;
+  font-size: 19px;
+}

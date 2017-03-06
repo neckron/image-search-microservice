@@ -1,0 +1,43 @@
+
+<html lang="en">
+<head>
+   <% include ../partials/header.ejs %>
+</head>
+    <body>
+      <h1>Image Search Microservice</h1>
+
+        <div class="listing">
+          <h3>User stories:</h3>
+          <ul>
+                <li>1) I can get the image URLs, alt text and page urls for a set of images relating to a given search string.</li>
+                <li>2) I can paginate through the responses by adding a ?offset=2 parameter to the URL</li>
+                <li>3) I can get a list of the most recently submitted search strings.</li>
+          </ul>
+          </div>
+
+
+            <div class="listing">
+            <h3>Example creation usage:</h3>
+              <div>
+              <code>https://host:port/create/www.google.com</code>
+              <code>https://host:port/create/http://foo.com:80</code>
+            </div>
+              <br/>
+              <br/>
+              <h3>Example output:</h3>
+              <div>
+                <code>
+                    {"original_url" : "www.google.com", "short_url" : "https://host:port/AxJi12"}
+                </code>
+              </div>
+            </div>
+            <div class="listing">
+              <h3>Finding url:</h3>
+              <div>
+                <code>
+                    https://host:port/AxJi12 will redirecto to : www.google.com
+                </code>
+              </div>
+            </div>
+    </body>
+</html>
