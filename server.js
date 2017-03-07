@@ -1,6 +1,8 @@
 var express = require('express');
 var mongodb = require('mongodb');
 var dotenv = require('dotenv').config();
+var Client = require('node-rest-client').Client;
+var client = new Client();
 var app = express();
 
 // ----------------------------------------------- setup view engine
@@ -16,69 +18,79 @@ app.use(express.static(__dirname + '/public'));
 // ----------------------------------------------- using mongodb
 
 var MongoClient = mongodb.MongoClient;
-var url = process.env.MONGODB_URI;
+var mongo_url = process.env.MONGODB_URI;
+var api_uri = process.env.GCS_API_URI;
+var api_key = process.env.GCS_API_KEY;
+var cx_id = process.env.GCS_ENGINE_ID;
 
+// ----------------------------------------------- api args
 
 
 // ----------------------------------------------- setup routes
 
-app.get('/create/:param' , function(req ,res) {
-  if(validator.isURL(req.params.param )){
-  MongoClient.connect(url, function (err, db) {
-  if (err) {
-    console.log('Unable to connect to the mongoDB server. Error:', err);
-  } else {
-    console.log('Connection established to', url);
-    //TODO modify port
-     var collection = db.collection('urls');
-     console.log(req);
-     var randomShort = randomstring.generate({length: 6,charset: 'alphabetic'});
-     var url = {url : req.params.param , shortUrl :randomShort}
-     collection.insert(url, function(err,result){
-       if (err) {
-        console.log(err);
-      } else {
-        console.log('Inserted %d documents into the "users" collection. The documents inserted with "_id" are:', result.length, result);
-        res.send({'original':req.params.param , 'shortUrl':getHost(req,randomShort)});
-      }
-      db.close();
-     });
+
+//AIzaSyASKSpQpLkgVYAbJ__UEquIx3oQ1a-azMY
+
+app.get('/api/imagesearch/:searchString' , function(req ,res){
+
+  // getting url params and query info
+  var searchString = req.params.searchString;
+  var offset = req.query.offset;
+
+  // storing string search to mongodb
+  MongoClient.connect(mongo_url, function (err, db) {
+    if (err) {
+      console.log('Unable to connect to the mongoDB server. Error:', err);
+    } else {
+      var collection = db.collection('urls');
+      var term = { term : searchString , when : new Date()}
+      collection.insert(term, function(err,result){
+        if (err) {
+         console.log(err);
+       } else {
+         console.log('Inserted %d documents into the "users" collection. The documents inserted with "_id" are:', result.length, result);
+         res.send({'original':req.params});
+       }
+       db.close();
+      });
+    }
+  });
+
+  /*
+
+  //building api api_arg
+  var api_args = {
+    parameters : {key : 'AIzaSyASKSpQpLkgVYAbJ__UEquIx3oQ1a-azMY',
+                  q  : 'searchString',
+                  searchType : "image",
+                  cx : "015664496648704284990:dtc2tyxj3gu"},
+                  headers: { "Content-Type": "application/json" }
   }
-});
-}else{
-  res.send({'error':'Invalid URL'});
-}
-});
 
-app.get('/:param' , function(req, res){
-  MongoClient.connect(url, function (err, db) {
-  if (err) {
-    console.log('Unable to connect to the mongoDB server. Error:', err);
-  } else {
-    console.log('Connection established to', url);
-    //TODO modify port
-     var collection = db.collection('urls');
-     collection.find({shortUrl: req.params.param}).toArray(function (err, result) {
-      if (err) {
-        console.log(err);
-      } else if (result.length) {
-        console.log('Found:', result);
-        res.redirect(result[0].url);
-      } else {
-        console.log('No document(s) found with defined "find" criteria!');
-        res.send({'original': 'Not found'});
-      }
-      db.close();
-    });
+  // connecting to api
+  client.get('https://www.googleapis.com/customsearch/v1?key=AIzaSyASKSpQpLkgVYAbJ__UEquIx3oQ1a-azMY&q=searchString&searchType=image&cx=015664496648704284990%3Adtc2tyxj3gu', function (data, response) {
+    console.log(response)  ;
+ });*/
 
-  }
-});
 });
 
-function getHost(req, generatedString){
-  return req.protocol + '://' + req.get('host')+'/'+generatedString;
-}
-
+app.get('/api/latest/imagesearch' , function(req ,res){
+  MongoClient.connect(mongo_url, function (err, db) {
+    if (err) {
+      console.log('Unable to connect to the mongoDB server. Error:', err);
+    } else {
+      var collection = db.collection('urls');
+      collection.find().toArray(function (err, result) {
+        if (err) {
+         console.log(err);
+       } else {
+         res.send(result);
+       }
+       db.close();
+      });
+    }
+  });
+});
 
 app.listen(process.env.PORT || 5000, function () {
   console.log('Example app listening on port %s!',process.env.PORT);
