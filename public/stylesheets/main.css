@@ -6,36 +6,47 @@
  * General styles
  */
 
+.row {
+  display: flex; /* equal height of the children */
+}
+
+.col {
+  flex: 1; /* additionally, equal width */
+  padding: 1em;
+}
+
+span {
+  display: inline-block;
+  vertical-align: middle;
+  line-height: normal;
+  align-items: center;
+}
+
 body, html{
-     background-repeat: no-repeat;
-     background-color: #AA3939;
-     font-family: Tahoma, Geneva, sans-serif;
-     margin : 15px  15px 15px 15px;
+background-color: #338550;
+background-image: url("https://www.transparenttextures.com/patterns/carbon-fibre.png");
+     background-color: #142537;
+     font-family: Lato, Geneva, sans-serif;
 }
 
-.main{
- 	margin-top: 70px;
-}
-
-
-h1 { color: #FFAAAA;
-  font-family: Tahoma, Geneva, sans-serif;
+h1 { color: #4B6683;
+  font-family: Audimat, Geneva, sans-serif;
   font-size: 54px;
-  font-weight: 100;
+  font-weight: 50;
   line-height: 58px;
   margin: 0 0 0;
   text-align: center;
 }
 
-h2 { color: #FFAAAA;
-  font-family: Tahoma, Geneva, sans-serif;
+h2 { color: #142537;
+  font-family: Audimat, Geneva, sans-serif;
   font-size: 54px;
   font-weight: 100;
   line-height: 58px;
   margin: 0 0 58px;
 }
 
-h3 { color: #FFAAAA;
+h3 { color: white;
   font-family: Tahoma, Geneva, sans-serif;
   font-size: 32px;
   font-weight: 100;
@@ -44,24 +55,38 @@ h3 { color: #FFAAAA;
 }
 
 .listing{
-  background-color: #801515;
-  margin : 5px 5px 5px 5px;
-  padding : 30px;
+  color : #435364;
+  margin: 5px 0;
+  padding : 10px;
 }
 
 
 li{
-  color: #FFAAAA;
-  font-size: 20px;
-  font-weight: 50;
-  line-height: 12px;
-  padding-top: 15px;
+  font-size: 26px;
+  line-height: 36px;
+  width: 80%;
+  top: 40px;
+  padding: 18px 20px 18px 20px;
+  text-align: justify;
+  text-justify: inter-word;
 }
 
 code{
-  padding: 20px 20px 20px 20px;
-  margin-bottom: 12px;
-  background-color: 550000;
-  color : FFAAAA;
-  font-size: 19px;
+  padding: 3px 3px 3px 3px;
+  margin-bottom: 20px;
+  color : #4B6683;
+  font-size: 15px;
+}
+
+p {
+  font-size: 26px;
+  line-height: 36px;
+  color : #435364;
+}
+
+.divborder{
+  border-radius: 25px;
+  border: 2px solid #01080F;
+  padding: 20px;
+  margin-top: 10px;
 }

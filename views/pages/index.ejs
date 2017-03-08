@@ -2,42 +2,90 @@
 <html lang="en">
 <head>
    <% include ../partials/header.ejs %>
-</head>
-    <body>
-      <h1>Image Search Microservice</h1>
+   </head>
+       <body>
 
-        <div class="listing">
-          <h3>User stories:</h3>
-          <ul>
-                <li>1) I can get the image URLs, alt text and page urls for a set of images relating to a given search string.</li>
-                <li>2) I can paginate through the responses by adding a ?offset=2 parameter to the URL</li>
-                <li>3) I can get a list of the most recently submitted search strings.</li>
-          </ul>
+
+
+         <div class="row">
+         <div style="display:flex;align-items:center;width:40%">
+           <span>
+             <h1>Microservice</h1>
+             <h1>Image Search Abstraction Layer </h1>
+           </span>
+           </div>
+
+           <div class="col">
+           <div class="listing">
+             <h3>User stories:</h3>
+             <ul>
+                   <li>I can get the image URLs, alt text and page urls for a set of images relating to a given search string.</li>
+                   <li>I can paginate through the responses by adding a ?offset=2 parameter to the URL</li>
+                   <li>I can get a list of the most recently submitted search strings.</li>
+             </ul>
+            <div class="divborder">
+             <h3>Usage: /api/imagesearch/searchString?offset=20</h3>
+             <p> Go to <code>http://localhost:8000/api/imagesearch/dogs sleeping?offset=20</code> </p>
+             <p> Result:</p>
+             <code>
+               [
+                 {
+                   "url": "https://wallpaperscraft.com/image/dogs_sleeping_wood_floor_rest_65048_1920x1080.jpg",
+                   "snippet": "... Wallpaper dogs, sleeping, ...",
+                   "thumbnail": "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSi0LAtE0Uy3b9bdzp0Bmv9WXXK-BTweNz_adYja7cYCVzHaJBqstofyrH2",
+                   "context": "https://wallpaperscraft.com/download/dogs_sleeping_wood_floor_rest_65048/1920x1080"
+                 },
+                 {
+                   "url": "http://deskbg.com/s3/wpp/18/18820/sleeping-cute-dogs-desktop-background.jpg",
+                   "snippet": "Download 1920x1080 ...",
+                   "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvrDsFnG4R6RvBXZYo6Roo7RzWDvhm8NuWftyaN8biBGIJE8srdc-J80Vg",
+                   "context": "http://deskbg.com/view/18820/"
+                 },
+                 .
+                 .
+              ]
+             </code>
+           </div>
+           <div class="divborder">
+            <h3>Usage: /api/latest/imagesearch/</h3>
+            <p> Go to <code>http://localhost:8000/api/latest/imagesearch/</code> </p>
+            <p> Result:</p>
+            <code>
+              [
+                {
+                  "_id": "58bee3b273c18b96669c98f9",
+                  "term": "searchString",
+                  "when": "2017-03-07T16:45:38.320Z"
+                },
+                {
+                  "_id": "58bee4807173ef98d043d02d",
+                  "term": "latest",
+                  "when": "2017-03-07T16:49:04.460Z"
+                },
+                {
+                  "_id": "58bee48d7173ef98d043d02e",
+                  "term": "funnycats",
+                  "when": "2017-03-07T16:49:17.474Z"
+                },
+                {
+                  "_id": "58bee4937173ef98d043d02f",
+                  "term": "other",
+                  "when": "2017-03-07T16:49:23.577Z"
+                },
+                {
+                  "_id": "58bee4957173ef98d043d030",
+                  "term": "latest",
+                  "when": "2017-03-07T16:49:25.902Z"
+                },
+                .
+                .
+              ]
+            </code>
           </div>
+             </div>
+         </div>
 
+           </div>
 
-            <div class="listing">
-            <h3>Example creation usage:</h3>
-              <div>
-              <code>https://host:port/create/www.google.com</code>
-              <code>https://host:port/create/http://foo.com:80</code>
-            </div>
-              <br/>
-              <br/>
-              <h3>Example output:</h3>
-              <div>
-                <code>
-                    {"original_url" : "www.google.com", "short_url" : "https://host:port/AxJi12"}
-                </code>
-              </div>
-            </div>
-            <div class="listing">
-              <h3>Finding url:</h3>
-              <div>
-                <code>
-                    https://host:port/AxJi12 will redirecto to : www.google.com
-                </code>
-              </div>
-            </div>
-    </body>
-</html>
+       </body>
+   </html>

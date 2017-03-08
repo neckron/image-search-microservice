@@ -23,19 +23,14 @@ var api_uri = process.env.GCS_API_URI;
 var api_key = process.env.GCS_API_KEY;
 var cx_id = process.env.GCS_ENGINE_ID;
 
-// ----------------------------------------------- api args
-
-
-// ----------------------------------------------- setup routes
-
-
-//AIzaSyASKSpQpLkgVYAbJ__UEquIx3oQ1a-azMY
+// ----------------------------------------------- setup /api/imagesearch/:searchString
 
 app.get('/api/imagesearch/:searchString' , function(req ,res){
 
   // getting url params and query info
   var searchString = req.params.searchString;
   var offset = req.query.offset;
+  var result;
 
   // storing string search to mongodb
   MongoClient.connect(mongo_url, function (err, db) {
@@ -49,30 +44,32 @@ app.get('/api/imagesearch/:searchString' , function(req ,res){
          console.log(err);
        } else {
          console.log('Inserted %d documents into the "users" collection. The documents inserted with "_id" are:', result.length, result);
-         res.send({'original':req.params});
+         //res.send({'original':req.params});
        }
        db.close();
       });
     }
   });
 
-  /*
+
 
   //building api api_arg
-  var api_args = {
-    parameters : {key : 'AIzaSyASKSpQpLkgVYAbJ__UEquIx3oQ1a-azMY',
-                  q  : 'searchString',
+  var args = {
+    parameters : {key : api_key,
+                  q : searchString,
                   searchType : "image",
-                  cx : "015664496648704284990:dtc2tyxj3gu"},
-                  headers: { "Content-Type": "application/json" }
+                  cx : cx_id,
+                  start : offset },
+   headers: { "Content-Type": "application/json" }
   }
 
-  // connecting to api
-  client.get('https://www.googleapis.com/customsearch/v1?key=AIzaSyASKSpQpLkgVYAbJ__UEquIx3oQ1a-azMY&q=searchString&searchType=image&cx=015664496648704284990%3Adtc2tyxj3gu', function (data, response) {
-    console.log(response)  ;
- });*/
+  client.get(api_uri, args, function (data, response) {
+    res.send(formatOutput(data.items))  ;
+ });
 
 });
+
+// ----------------------------------------------- setup route /api/latest/imagesearch
 
 app.get('/api/latest/imagesearch' , function(req ,res){
   MongoClient.connect(mongo_url, function (err, db) {
@@ -91,6 +88,27 @@ app.get('/api/latest/imagesearch' , function(req ,res){
     }
   });
 });
+
+// ----------------------------------------------- response formater
+
+function formatOutput (array){
+  var out = [];
+  var obj;
+  array.forEach( function(item){
+    obj = {
+      url : item.link,
+      snippet : item.snippet,
+      thumbnail : item.image.thumbnailLink,
+      context : item.image.contextLink
+    }
+    out.push(obj);
+  });
+
+  return out;
+}
+
+
+// ----------------------------------------------- setup server
 
 app.listen(process.env.PORT || 5000, function () {
   console.log('Example app listening on port %s!',process.env.PORT);
